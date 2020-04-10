@@ -1,0 +1,18 @@
+{
+	"name": "trigger1",
+	"properties": {
+		"annotations": [],
+		"runtimeState": "Stopped",
+		"pipelines": [],
+		"type": "BlobEventsTrigger",
+		"typeProperties": {
+			"blobPathBeginsWith": "/study/blobs/",
+			"blobPathEndsWith": ".txt",
+			"ignoreEmptyBlobs": true,
+			"scope": "/subscriptions/f8300084-780e-4ce3-bd9c-f53f5732bcc3/resourceGroups/AZGLRESGPSHARED001/providers/Microsoft.Storage/storageAccounts/azglstaccshared001",
+			"events": [
+				"Microsoft.Storage.BlobCreated"
+			]
+		}
+	}
+}
