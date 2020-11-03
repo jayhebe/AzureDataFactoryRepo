@@ -1,5 +1,5 @@
 {
-	"name": "ds_ny_taxi_yellow_trip",
+	"name": "ds_ny_taxi_yellow_trip_2018",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_blob_shared_002",
