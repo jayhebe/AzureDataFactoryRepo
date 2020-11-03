@@ -1,0 +1,17 @@
+{
+	"name": "ls_blob_shared_002",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"sasUri": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-saskey-shared-002"
+			}
+		}
+	}
+}
