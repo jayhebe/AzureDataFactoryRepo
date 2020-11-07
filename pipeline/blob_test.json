@@ -18,12 +18,12 @@
 					"url": "https://psastaccshared001.blob.core.windows.net/testcont?restype=container",
 					"method": "DELETE",
 					"headers": {
-						"Authorization": "SharedKey psastaccshared001:aX58eMP+wiD8kS9ynqsZeBtMYBPCk0J6kBxyy+2blD0=",
-						"x-ms-date": {
-							"value": "@formatDateTime(utcnow(), 'R')",
-							"type": "Expression"
-						},
+						"x-ms-date": "@formatDateTime(utcnow(), 'R')",
 						"x-ms-version": "2019-12-12"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://storage.azure.com"
 					}
 				}
 			}
