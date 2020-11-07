@@ -1,0 +1,33 @@
+{
+	"name": "blob_test",
+	"properties": {
+		"activities": [
+			{
+				"name": "DeleteBlob",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://psastaccshared001.blob.core.windows.net/testcont?restype=container",
+					"method": "DELETE",
+					"headers": {
+						"Authorization": "SharedKey psastaccshared001:?sv=2019-12-12&ss=b&srt=co&sp=rwdlac&se=2020-11-06T21:15:21Z&st=2020-11-06T13:15:21Z&spr=https&sig=SZgLHbM5vZ5YiYcPsRte3cYaCnNNvMbbznUwldTfsCw%3D",
+						"x-ms-date": {
+							"value": "@formatDateTime(utcnow(), 'E, dd MMM yyyy HH:mm:ss z')",
+							"type": "Expression"
+						},
+						"x-ms-version": "2019-12-12"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}
