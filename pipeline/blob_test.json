@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "DeleteBlob",
+				"name": "DeleteStorageContainer",
 				"type": "WebActivity",
 				"dependsOn": [],
 				"policy": {
