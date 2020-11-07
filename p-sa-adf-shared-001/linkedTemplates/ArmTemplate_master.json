@@ -1,0 +1,56 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "p-sa-adf-shared-001"
+		},
+		"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-saskey-shared-002"
+		},
+		"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://p-sa-keyvt-shared-001.vault.azure.net/"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "p-sa-adf-shared-001_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyvt_shared_001_properties_typeProperties_baseUrl')]"
+					},
+					"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
+						"value": "[parameters('ls_blob_shared_002_properties_typeProperties_sasUri_secretName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
