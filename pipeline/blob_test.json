@@ -18,7 +18,7 @@
 					"url": "https://psastaccshared001.blob.core.windows.net/testcont?restype=container",
 					"method": "DELETE",
 					"headers": {
-						"Authorization": "SharedKey psastaccshared001:aX58eMP%2BwiD8kS9ynqsZeBtMYBPCk0J6kBxyy+2blD0=",
+						"Authorization": "SharedKey psastaccshared001:aX58eMP+wiD8kS9ynqsZeBtMYBPCk0J6kBxyy+2blD0=",
 						"x-ms-date": {
 							"value": "@formatDateTime(utcnow(), 'R')",
 							"type": "Expression"
