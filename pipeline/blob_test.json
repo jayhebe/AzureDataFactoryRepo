@@ -18,9 +18,9 @@
 					"url": "https://psastaccshared001.blob.core.windows.net/testcont?restype=container",
 					"method": "DELETE",
 					"headers": {
-						"Authorization": "SharedKey psastaccshared001:?sv=2019-12-12&ss=b&srt=co&sp=rwdlac&se=2020-11-06T21:15:21Z&st=2020-11-06T13:15:21Z&spr=https&sig=SZgLHbM5vZ5YiYcPsRte3cYaCnNNvMbbznUwldTfsCw%3D",
+						"Authorization": "SharedKey psastaccshared001:aX58eMP%2BwiD8kS9ynqsZeBtMYBPCk0J6kBxyy%2B2blD0%3D",
 						"x-ms-date": {
-							"value": "@formatDateTime(utcnow(), 'E, dd MMM yyyy HH:mm:ss z')",
+							"value": "@formatDateTime(utcnow(), 'R')",
 							"type": "Expression"
 						},
 						"x-ms-version": "2019-12-12"
