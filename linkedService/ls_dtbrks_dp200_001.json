@@ -1,0 +1,24 @@
+{
+	"name": "ls_dtbrks_dp200_001",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-5762387905506172.12.azuredatabricks.net",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-dtbrks-dp200-001"
+			},
+			"newClusterNodeType": "Standard_DS3_v2",
+			"newClusterNumOfWorker": "2",
+			"newClusterSparkEnvVars": {
+				"PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+			},
+			"newClusterVersion": "7.0.x-scala2.12"
+		}
+	}
+}
