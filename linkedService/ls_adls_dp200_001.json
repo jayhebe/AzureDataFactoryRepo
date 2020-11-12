@@ -1,0 +1,18 @@
+{
+	"name": "ls_adls_dp200_001",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBlobFS",
+		"typeProperties": {
+			"url": "https://psastaccadlsdp200001.dfs.core.windows.net",
+			"accountKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-adls-acckey-dp200-001"
+			}
+		}
+	}
+}
