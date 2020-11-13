@@ -19,21 +19,21 @@
 						"type": "DelimitedTextSource",
 						"storeSettings": {
 							"type": "AmazonS3ReadSettings",
-							"recursive": true
+							"recursive": true,
+							"wildcardFolderPath": "ny-taxi-yellow-trip",
+							"wildcardFileName": "*"
 						},
 						"formatSettings": {
 							"type": "DelimitedTextReadSettings"
 						}
 					},
 					"sink": {
-						"type": "DelimitedTextSink",
+						"type": "ParquetSink",
 						"storeSettings": {
 							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextWriteSettings",
-							"quoteAllText": true,
-							"fileExtension": ".csv"
+							"type": "ParquetWriteSettings"
 						}
 					},
 					"enableStaging": false,
@@ -260,7 +260,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "ADLS2DatalakeLabData",
+						"referenceName": "ADLS2DatalakeParqData",
 						"type": "DatasetReference"
 					}
 				]

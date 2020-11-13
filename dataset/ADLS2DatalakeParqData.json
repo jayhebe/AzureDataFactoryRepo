@@ -1,0 +1,21 @@
+{
+	"name": "ADLS2DatalakeParqData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_dp200_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "nytaxi.parquet",
+				"folderPath": "ny-taxi-yellow-trip",
+				"fileSystem": "adls2-datalake-lab"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
