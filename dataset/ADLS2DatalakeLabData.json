@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"folderPath": "ny-taxi-yellow-trip",
 				"fileSystem": "adls2-datalake-lab"
 			},
 			"columnDelimiter": ",",
