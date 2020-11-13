@@ -34,7 +34,7 @@
 						},
 						"formatSettings": {
 							"type": "ParquetWriteSettings",
-							"maxRowsPerFile": 100000,
+							"maxRowsPerFile": 1000000,
 							"fileNamePrefix": ""
 						}
 					},
