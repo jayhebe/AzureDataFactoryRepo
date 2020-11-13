@@ -10,7 +10,6 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "nytaxi.parquet",
 				"folderPath": "ny-taxi-yellow-trip",
 				"fileSystem": "adls2-datalake-lab"
 			},
