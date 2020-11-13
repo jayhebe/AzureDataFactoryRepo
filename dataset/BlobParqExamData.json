@@ -1,0 +1,20 @@
+{
+	"name": "BlobParqExamData",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_dp200_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "output",
+				"container": "adfv2tutorial"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
