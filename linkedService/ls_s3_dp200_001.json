@@ -1,0 +1,20 @@
+{
+	"name": "ls_s3_dp200_001",
+	"properties": {
+		"annotations": [],
+		"type": "AmazonS3",
+		"typeProperties": {
+			"serviceUrl": "",
+			"accessKeyId": "AKIAXM6NHHPKHW3BYFHO",
+			"secretAccessKey": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-s3-acckey-dp200-001"
+			},
+			"authenticationType": "AccessKey"
+		}
+	}
+}
