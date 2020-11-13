@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AmazonS3Location",
-				"bucketName": "s3-datalake-lab",
+				"bucketName": "s3-adf-test",
 				"folderPath": "ny-taxi-yellow-trip"
 			},
 			"columnDelimiter": ",",
