@@ -5,14 +5,20 @@
 		"factoryName": {
 			"value": "p-sa-adf-shared-001"
 		},
+		"ls_adls_dp200_001_properties_typeProperties_url": {
+			"value": "https://psastaccadlsdp200001.dfs.core.windows.net"
+		},
+		"ls_blob_dp200_001_properties_typeProperties_sasUri_secretName": {
+			"value": "kv-sc-blob-saskey-dp200-001"
+		},
 		"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
 			"value": "kv-sc-saskey-shared-002"
 		},
 		"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
 			"value": "https://p-sa-keyvt-shared-001.vault.azure.net/"
 		},
-		"ls_adls_dp200_001_properties_typeProperties_url": {
-			"value": "https://psastaccadlsdp200001.dfs.core.windows.net"
+		"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
+			"value": "kv-sc-sqldb-connstr-dp200-001"
 		},
 		"containerUri": {
 			"value": ""

@@ -1,0 +1,229 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "p-sa-adf-shared-001"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/CopyDataBlobToSQL')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "CopyDataBlobToSQL",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "7.00:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [
+							{
+								"name": "Source",
+								"value": "adfv2tutorial/input/inputEmp.txt"
+							},
+							{
+								"name": "Destination",
+								"value": "dbo.emp"
+							}
+						],
+						"typeProperties": {
+							"source": {
+								"type": "DelimitedTextSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true
+								},
+								"formatSettings": {
+									"type": "DelimitedTextReadSettings",
+									"skipLineCount": 0
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink"
+							},
+							"enableStaging": false,
+							"validateDataConsistency": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "FirstName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FirstName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LastName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LastName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "SourceDataset_ulv",
+								"type": "DatasetReference"
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "DestinationDataset_ulv",
+								"type": "DatasetReference"
+							}
+						]
+					}
+				],
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/SourceDataset_ulv')]",
+				"[concat(variables('factoryId'), '/datasets/DestinationDataset_ulv')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_ulv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sqldb_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirstName",
+						"type": "varchar"
+					},
+					{
+						"name": "LastName",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "emp"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sqldb_dp200_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_ulv')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_blob_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "inputEmp.txt",
+						"folderPath": "input",
+						"container": "adfv2tutorial"
+					},
+					"columnDelimiter": "|",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "FirstName",
+						"type": "String"
+					},
+					{
+						"name": "LastName",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob_dp200_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_blob_dp200_001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvt_shared_001",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "kv-sc-blob-saskey-dp200-001"
+					}
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_sqldb_dp200_001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvt_shared_001",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "kv-sc-sqldb-connstr-dp200-001"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}

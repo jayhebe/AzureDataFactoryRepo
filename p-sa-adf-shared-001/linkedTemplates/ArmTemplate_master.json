@@ -7,6 +7,14 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "p-sa-adf-shared-001"
 		},
+		"ls_adls_dp200_001_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://psastaccadlsdp200001.dfs.core.windows.net"
+		},
+		"ls_blob_dp200_001_properties_typeProperties_sasUri_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-blob-saskey-dp200-001"
+		},
 		"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
 			"type": "string",
 			"defaultValue": "kv-sc-saskey-shared-002"
@@ -15,9 +23,9 @@
 			"type": "string",
 			"defaultValue": "https://p-sa-keyvt-shared-001.vault.azure.net/"
 		},
-		"ls_adls_dp200_001_properties_typeProperties_url": {
+		"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "https://psastaccadlsdp200001.dfs.core.windows.net"
+			"defaultValue": "kv-sc-sqldb-connstr-dp200-001"
 		},
 		"containerUri": {
 			"type": "string",
@@ -49,11 +57,17 @@
 					"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_keyvt_shared_001_properties_typeProperties_baseUrl')]"
 					},
+					"ls_adls_dp200_001_properties_typeProperties_url": {
+						"value": "[parameters('ls_adls_dp200_001_properties_typeProperties_url')]"
+					},
+					"ls_blob_dp200_001_properties_typeProperties_sasUri_secretName": {
+						"value": "[parameters('ls_blob_dp200_001_properties_typeProperties_sasUri_secretName')]"
+					},
 					"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
 						"value": "[parameters('ls_blob_shared_002_properties_typeProperties_sasUri_secretName')]"
 					},
-					"ls_adls_dp200_001_properties_typeProperties_url": {
-						"value": "[parameters('ls_adls_dp200_001_properties_typeProperties_url')]"
+					"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},
