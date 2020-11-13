@@ -1,0 +1,271 @@
+{
+	"name": "CopyDataS3ToADLS2",
+	"properties": {
+		"activities": [
+			{
+				"name": "CopyDataS3ToADLS2",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AmazonS3ReadSettings",
+							"recursive": true
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobFSWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".csv"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "VendorID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "VendorID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tpep_pickup_datetime",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tpep_pickup_datetime",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tpep_dropoff_datetime",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tpep_dropoff_datetime",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "passenger_count",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "passenger_count",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "trip_distance",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "trip_distance",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "RatecodeID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RatecodeID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "store_and_fwd_flag",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "store_and_fwd_flag",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "PULocationID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "PULocationID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "DOLocationID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "DOLocationID",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "payment_type",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "payment_type",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "fare_amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "fare_amount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "extra",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "extra",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "mta_tax",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "mta_tax",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tip_amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tip_amount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "tolls_amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "tolls_amount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "improvement_surcharge",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "improvement_surcharge",
+									"type": "String",
+									"physicalType": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "total_amount",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "total_amount",
+									"type": "String",
+									"physicalType": "String"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "S3DatalakeLabData",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ADLS2DatalakeLabData",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
