@@ -30,11 +30,12 @@
 					"sink": {
 						"type": "ParquetSink",
 						"storeSettings": {
-							"type": "AzureBlobFSWriteSettings",
-							"copyBehavior": "MergeFiles"
+							"type": "AzureBlobFSWriteSettings"
 						},
 						"formatSettings": {
-							"type": "ParquetWriteSettings"
+							"type": "ParquetWriteSettings",
+							"maxRowsPerFile": 1000000,
+							"fileNamePrefix": "ny-taxi"
 						}
 					},
 					"enableStaging": false,
