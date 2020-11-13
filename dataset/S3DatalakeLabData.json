@@ -11,8 +11,7 @@
 			"location": {
 				"type": "AmazonS3Location",
 				"bucketName": "s3-datalake-lab",
-				"folderPath": "ny-taxi-yellow-trip",
-				"fileName": "*"
+				"folderPath": "ny-taxi-yellow-trip"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
