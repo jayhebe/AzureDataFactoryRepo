@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_ulv",
+				"name": "CopyDataBlobToSQL",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
