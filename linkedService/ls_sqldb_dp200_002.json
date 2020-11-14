@@ -1,0 +1,17 @@
+{
+	"name": "ls_sqldb_dp200_002",
+	"properties": {
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-sqldb-connstr-dp200-002"
+			}
+		}
+	}
+}
