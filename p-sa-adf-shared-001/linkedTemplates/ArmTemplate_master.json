@@ -23,9 +23,21 @@
 			"type": "string",
 			"defaultValue": "https://p-sa-keyvt-shared-001.vault.azure.net/"
 		},
+		"ls_s3_dp200_001_properties_typeProperties_accessKeyId": {
+			"type": "string",
+			"defaultValue": "AKIAXM6NHHPKHW3BYFHO"
+		},
 		"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "kv-sc-sqldb-connstr-dp200-001"
+		},
+		"ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-sqldb-connstr-dp200-002"
+		},
+		"ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-sqldw-connstr-dp200-001"
 		},
 		"containerUri": {
 			"type": "string",
@@ -66,12 +78,41 @@
 					"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
 						"value": "[parameters('ls_blob_shared_002_properties_typeProperties_sasUri_secretName')]"
 					},
+					"ls_s3_dp200_001_properties_typeProperties_accessKeyId": {
+						"value": "[parameters('ls_s3_dp200_001_properties_typeProperties_accessKeyId')]"
+					},
 					"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName')]"
+					},
+					"ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName')]"
+					},
+					"ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName')]"
 					}
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "p-sa-adf-shared-001_ArmTemplate_1",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_1.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 'p-sa-adf-shared-001_ArmTemplate_0')]"
+			]
 		}
 	]
 }

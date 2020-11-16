@@ -17,8 +17,17 @@
 		"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
 			"value": "https://p-sa-keyvt-shared-001.vault.azure.net/"
 		},
+		"ls_s3_dp200_001_properties_typeProperties_accessKeyId": {
+			"value": "AKIAXM6NHHPKHW3BYFHO"
+		},
 		"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
 			"value": "kv-sc-sqldb-connstr-dp200-001"
+		},
+		"ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName": {
+			"value": "kv-sc-sqldb-connstr-dp200-002"
+		},
+		"ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName": {
+			"value": "kv-sc-sqldw-connstr-dp200-001"
 		}
 	}
 }

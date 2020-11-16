@@ -23,9 +23,21 @@
 			"type": "string",
 			"defaultValue": "kv-sc-saskey-shared-002"
 		},
+		"ls_s3_dp200_001_properties_typeProperties_accessKeyId": {
+			"type": "string",
+			"defaultValue": "AKIAXM6NHHPKHW3BYFHO"
+		},
 		"ls_sqldb_dp200_001_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "kv-sc-sqldb-connstr-dp200-001"
+		},
+		"ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-sqldb-connstr-dp200-002"
+		},
+		"ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "kv-sc-sqldw-connstr-dp200-001"
 		}
 	},
 	"variables": {
@@ -181,6 +193,31 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/ls_s3_dp200_001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AmazonS3",
+				"typeProperties": {
+					"serviceUrl": "",
+					"accessKeyId": "[parameters('ls_s3_dp200_001_properties_typeProperties_accessKeyId')]",
+					"secretAccessKey": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvt_shared_001",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "kv-sc-s3-acckey-dp200-001"
+					},
+					"authenticationType": "AccessKey"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_keyvt_shared_001')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/ls_sqldb_dp200_001')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -200,6 +237,100 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_keyvt_shared_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_sqldb_dp200_002')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvt_shared_001",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('ls_sqldb_dp200_002_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_keyvt_shared_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_sqldw_dp200_001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDW",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "ls_keyvt_shared_001",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_keyvt_shared_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ADLS2DatalakeParqData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_adls_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"folderPath": "ny-taxi-yellow-trip",
+						"fileSystem": "adls2-datalake-lab"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_adls_dp200_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/BlobParqExamData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_blob_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Parquet",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"folderPath": "output",
+						"container": "adfv2tutorial"
+					},
+					"compressionCodec": "snappy"
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_blob_dp200_001')]"
 			]
 		},
 		{
@@ -235,6 +366,35 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/ls_sqldb_dp200_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DestinationDataset_uyg')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sqldw_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"parameters": {
+					"cw_table": {
+						"type": "String"
+					}
+				},
+				"annotations": [],
+				"type": "AzureSqlDWTable",
+				"schema": [],
+				"typeProperties": {
+					"schema": "SalesLT",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sqldw_dp200_001')]"
 			]
 		},
 		{
@@ -319,6 +479,155 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/S3DatalakeLabData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_s3_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AmazonS3Location",
+						"bucketName": "s3-adf-test",
+						"folderPath": "ny-taxi-yellow-trip"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": [
+					{
+						"name": "VendorID",
+						"type": "String"
+					},
+					{
+						"name": "tpep_pickup_datetime",
+						"type": "String"
+					},
+					{
+						"name": "tpep_dropoff_datetime",
+						"type": "String"
+					},
+					{
+						"name": "passenger_count",
+						"type": "String"
+					},
+					{
+						"name": "trip_distance",
+						"type": "String"
+					},
+					{
+						"name": "RatecodeID",
+						"type": "String"
+					},
+					{
+						"name": "store_and_fwd_flag",
+						"type": "String"
+					},
+					{
+						"name": "PULocationID",
+						"type": "String"
+					},
+					{
+						"name": "DOLocationID",
+						"type": "String"
+					},
+					{
+						"name": "payment_type",
+						"type": "String"
+					},
+					{
+						"name": "fare_amount",
+						"type": "String"
+					},
+					{
+						"name": "extra",
+						"type": "String"
+					},
+					{
+						"name": "mta_tax",
+						"type": "String"
+					},
+					{
+						"name": "tip_amount",
+						"type": "String"
+					},
+					{
+						"name": "tolls_amount",
+						"type": "String"
+					},
+					{
+						"name": "improvement_surcharge",
+						"type": "String"
+					},
+					{
+						"name": "total_amount",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_s3_dp200_001')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SQLExamData')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_sqldb_dp200_001",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "FirstName",
+						"type": "varchar"
+					},
+					{
+						"name": "LastName",
+						"type": "varchar"
+					},
+					{
+						"name": "NickName",
+						"type": "varchar"
+					},
+					{
+						"name": "Email",
+						"type": "varchar"
+					},
+					{
+						"name": "Score",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Result",
+						"type": "varchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "exam"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/ls_sqldb_dp200_001')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SourceDataset_ulv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -357,387 +666,32 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_ny_taxi_yellow_trip_2018')]",
+			"name": "[concat(parameters('factoryName'), '/SourceDataset_uyg')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "ls_blob_shared_002",
+					"referenceName": "ls_sqldb_dp200_002",
 					"type": "LinkedServiceReference"
 				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "2018",
-						"container": "ny-taxi-yellow-trip"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "VendorID",
-						"type": "String"
-					},
-					{
-						"name": "tpep_pickup_datetime",
-						"type": "String"
-					},
-					{
-						"name": "tpep_dropoff_datetime",
-						"type": "String"
-					},
-					{
-						"name": "passenger_count",
-						"type": "String"
-					},
-					{
-						"name": "trip_distance",
-						"type": "String"
-					},
-					{
-						"name": "RatecodeID",
-						"type": "String"
-					},
-					{
-						"name": "store_and_fwd_flag",
-						"type": "String"
-					},
-					{
-						"name": "PULocationID",
-						"type": "String"
-					},
-					{
-						"name": "DOLocationID",
-						"type": "String"
-					},
-					{
-						"name": "payment_type",
-						"type": "String"
-					},
-					{
-						"name": "fare_amount",
-						"type": "String"
-					},
-					{
-						"name": "extra",
-						"type": "String"
-					},
-					{
-						"name": "mta_tax",
-						"type": "String"
-					},
-					{
-						"name": "tip_amount",
-						"type": "String"
-					},
-					{
-						"name": "tolls_amount",
-						"type": "String"
-					},
-					{
-						"name": "improvement_surcharge",
-						"type": "String"
-					},
-					{
-						"name": "total_amount",
+				"parameters": {
+					"cw_table": {
 						"type": "String"
 					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_shared_002')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_ny_taxi_yellow_trip_2019')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_blob_shared_002",
-					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
-				"type": "DelimitedText",
+				"type": "AzureSqlTable",
+				"schema": [],
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobStorageLocation",
-						"folderPath": "2019",
-						"container": "ny-taxi-yellow-trip"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": [
-					{
-						"name": "VendorID",
-						"type": "String"
-					},
-					{
-						"name": "tpep_pickup_datetime",
-						"type": "String"
-					},
-					{
-						"name": "tpep_dropoff_datetime",
-						"type": "String"
-					},
-					{
-						"name": "passenger_count",
-						"type": "String"
-					},
-					{
-						"name": "trip_distance",
-						"type": "String"
-					},
-					{
-						"name": "RatecodeID",
-						"type": "String"
-					},
-					{
-						"name": "store_and_fwd_flag",
-						"type": "String"
-					},
-					{
-						"name": "PULocationID",
-						"type": "String"
-					},
-					{
-						"name": "DOLocationID",
-						"type": "String"
-					},
-					{
-						"name": "payment_type",
-						"type": "String"
-					},
-					{
-						"name": "fare_amount",
-						"type": "String"
-					},
-					{
-						"name": "extra",
-						"type": "String"
-					},
-					{
-						"name": "mta_tax",
-						"type": "String"
-					},
-					{
-						"name": "tip_amount",
-						"type": "String"
-					},
-					{
-						"name": "tolls_amount",
-						"type": "String"
-					},
-					{
-						"name": "improvement_surcharge",
-						"type": "String"
-					},
-					{
-						"name": "total_amount",
-						"type": "String"
-					},
-					{
-						"name": "congestion_surcharge",
-						"type": "String"
+					"schema": "SalesLT",
+					"table": {
+						"value": "@dataset().cw_table",
+						"type": "Expression"
 					}
-				]
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/ls_blob_shared_002')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/CopyDataBlobToSQL')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "CopyDataBlobToSQL",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [
-							{
-								"name": "Source",
-								"value": "adfv2tutorial/input/inputEmp.txt"
-							},
-							{
-								"name": "Destination",
-								"value": "dbo.emp"
-							}
-						],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "AzureBlobStorageReadSettings",
-									"recursive": true
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings",
-									"skipLineCount": 0
-								}
-							},
-							"sink": {
-								"type": "AzureSqlSink"
-							},
-							"enableStaging": false,
-							"validateDataConsistency": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"mappings": [
-									{
-										"source": {
-											"name": "FirstName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "FirstName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									},
-									{
-										"source": {
-											"name": "LastName",
-											"type": "String",
-											"physicalType": "String"
-										},
-										"sink": {
-											"name": "LastName",
-											"type": "String",
-											"physicalType": "varchar"
-										}
-									}
-								],
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "SourceDataset_ulv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "DestinationDataset_ulv",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/SourceDataset_ulv')]",
-				"[concat(variables('factoryId'), '/datasets/DestinationDataset_ulv')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TransformMovies')]",
-			"type": "Microsoft.DataFactory/factories/dataflows",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "MappingDataFlow",
-				"typeProperties": {
-					"sources": [
-						{
-							"dataset": {
-								"referenceName": "MoviesDB",
-								"type": "DatasetReference"
-							},
-							"name": "MoviesDB"
-						}
-					],
-					"sinks": [
-						{
-							"dataset": {
-								"referenceName": "MoviesSink",
-								"type": "DatasetReference"
-							},
-							"name": "Sink"
-						}
-					],
-					"transformations": [
-						{
-							"name": "FilterYears"
-						},
-						{
-							"name": "AggregateComedyRating"
-						}
-					],
-					"script": "source(output(\n\t\tmovie as string,\n\t\ttitle as string,\n\t\tgenres as string,\n\t\tyear as string,\n\t\tRating as string,\n\t\t{Rotton Tomato} as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tignoreNoFilesFound: false) ~> MoviesDB\nMoviesDB filter(toInteger(year) >= 1910 && toInteger(year) <= 2000 && rlike(genres, 'Comedy')) ~> FilterYears\nFilterYears aggregate(groupBy(year),\n\tAverageComedyRating = avg(toInteger(Rating))) ~> AggregateComedyRating\nAggregateComedyRating sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> Sink"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/MoviesDB')]",
-				"[concat(variables('factoryId'), '/datasets/MoviesSink')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/TransformMovies')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "TransformMoives",
-						"type": "ExecuteDataFlow",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "7.00:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"dataflow": {
-								"referenceName": "TransformMovies",
-								"type": "DataFlowReference",
-								"parameters": {},
-								"datasetParameters": {
-									"MoviesDB": {},
-									"Sink": {}
-								}
-							},
-							"staging": {},
-							"compute": {
-								"coreCount": 8,
-								"computeType": "General"
-							},
-							"traceLevel": "Fine"
-						}
-					}
-				],
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/TransformMovies')]"
+				"[concat(variables('factoryId'), '/linkedServices/ls_sqldb_dp200_002')]"
 			]
 		}
 	]
