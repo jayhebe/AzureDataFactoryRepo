@@ -1,5 +1,5 @@
 {
-	"name": "ds_src_adio_data",
+	"name": "ds_src_radio_data",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_blob_dp200_001",
