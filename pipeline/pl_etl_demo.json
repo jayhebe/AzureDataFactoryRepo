@@ -1,0 +1,144 @@
+{
+	"name": "pl_etl_demo",
+	"properties": {
+		"activities": [
+			{
+				"name": "download_radio_data",
+				"type": "WebActivity",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 3,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://raw.githubusercontent.com/Azure/usql/master/Examples/Samples/Data/json/radiowebsite/small_radio_json.json",
+					"method": "GET"
+				}
+			},
+			{
+				"name": "save_radio_data_to_blob",
+				"type": "WebActivity",
+				"dependsOn": [
+					{
+						"activity": "download_radio_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"url": "https://psastaccblobdp200001.blob.core.windows.net/temp/small_radio_json.json",
+					"method": "PUT",
+					"headers": {
+						"x-ms-date": "@formatDateTime(utcnow(), 'R')",
+						"x-ms-version\t": "2019-12-12",
+						"x-ms-blob-type": "BlockBlob"
+					},
+					"body": {
+						"value": "@activity('download_radio_data').output.Response",
+						"type": "Expression"
+					},
+					"authentication": {
+						"type": "MSI",
+						"resource": "https://storage.azure.com"
+					}
+				}
+			},
+			{
+				"name": "extract_radio_data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "save_radio_data_to_blob",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/jay_on_business@outlook.com/nb-python-dp200-001"
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_dtbrks_dp200_001",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "copy_blob_to_sqldb",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "extract_radio_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ParquetSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFileName": "*.parquet"
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"tableOption": "autoCreate"
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "ds_src_blob_radio_data",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "ds_dst_sqldb_radio_data",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"annotations": []
+	}
+}
