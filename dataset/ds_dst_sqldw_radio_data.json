@@ -1,0 +1,12 @@
+{
+	"name": "ds_dst_sqldw_radio_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqldw_dp200_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": []
+	}
+}
