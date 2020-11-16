@@ -1,0 +1,19 @@
+{
+	"name": "ds_src_adio_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_dp200_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"container": "output"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": []
+	}
+}
