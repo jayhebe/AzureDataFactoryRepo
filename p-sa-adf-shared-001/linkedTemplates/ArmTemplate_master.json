@@ -39,6 +39,10 @@
 			"type": "string",
 			"defaultValue": "kv-sc-sqldw-connstr-dp200-001"
 		},
+		"ls_web_dp200_001_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://raw.githubusercontent.com/djpmsft/adf-ready-demo/master/moviesDB.csv"
+		},
 		"containerUri": {
 			"type": "string",
 			"metadata": "URI to storage account containing linked ARM templates"
@@ -68,6 +72,9 @@
 					},
 					"ls_keyvt_shared_001_properties_typeProperties_baseUrl": {
 						"value": "[parameters('ls_keyvt_shared_001_properties_typeProperties_baseUrl')]"
+					},
+					"ls_web_dp200_001_properties_typeProperties_url": {
+						"value": "[parameters('ls_web_dp200_001_properties_typeProperties_url')]"
 					},
 					"ls_adls_dp200_001_properties_typeProperties_url": {
 						"value": "[parameters('ls_adls_dp200_001_properties_typeProperties_url')]"

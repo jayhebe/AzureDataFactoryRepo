@@ -29,6 +29,9 @@
 		"ls_sqldw_dp200_001_properties_typeProperties_connectionString_secretName": {
 			"value": "kv-sc-sqldw-connstr-dp200-001"
 		},
+		"ls_web_dp200_001_properties_typeProperties_url": {
+			"value": "https://raw.githubusercontent.com/djpmsft/adf-ready-demo/master/moviesDB.csv"
+		},
 		"containerUri": {
 			"value": ""
 		},
