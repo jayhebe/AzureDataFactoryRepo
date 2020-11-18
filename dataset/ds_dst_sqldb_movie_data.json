@@ -1,0 +1,16 @@
+{
+	"name": "ds_dst_sqldb_movie_data",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sqldb_dp200_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Ratings"
+		}
+	}
+}
