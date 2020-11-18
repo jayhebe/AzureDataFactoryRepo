@@ -132,6 +132,40 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "transform_movie_data",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [
+					{
+						"activity": "copy_movie_data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "df_transform_movie_data",
+						"type": "DataFlowReference"
+					},
+					"staging": {
+						"folderPath": ""
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
 			}
 		],
 		"annotations": []
