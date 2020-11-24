@@ -11,6 +11,12 @@
 		"ls_blob_dp200_001_properties_typeProperties_sasUri_secretName": {
 			"value": "kv-sc-blob-saskey-dp200-001"
 		},
+		"ls_blob_dp200_002_properties_typeProperties_sasUri_secretName": {
+			"value": "kv-sc-blob-saskey-dp200-002"
+		},
+		"ls_blob_public_001_sasUri": {
+			"value": ""
+		},
 		"ls_blob_shared_002_properties_typeProperties_sasUri_secretName": {
 			"value": "kv-sc-saskey-shared-002"
 		},
