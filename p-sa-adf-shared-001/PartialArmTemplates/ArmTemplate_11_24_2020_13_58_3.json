@@ -1,0 +1,29 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "p-sa-adf-shared-001"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/ls_blob_public_001')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": "https://databricksdemostore.blob.core.windows.net/?sv=2017-11-09&ss=b&srt=sco&sp=rl&se=2099-12-31T17:59:59Z&st=2018-09-22T15:21:51Z&spr=https&sig=LqDcqVNGNEuWILjNJoThzaXktV2N%2BFS354s716RJo80%3D"
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
