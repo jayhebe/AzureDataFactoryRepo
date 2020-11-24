@@ -1,0 +1,18 @@
+{
+	"name": "SourceDataset_824",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_public_001",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "crime-data-2016",
+				"container": "training"
+			}
+		}
+	}
+}
