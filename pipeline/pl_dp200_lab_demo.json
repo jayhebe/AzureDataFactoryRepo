@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy_824",
+				"name": "copy_crime_data_to_blob",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -61,6 +61,38 @@
 						"type": "DatasetReference"
 					}
 				]
+			},
+			{
+				"name": "transform_crime_data",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "copy_crime_data_to_blob",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/jay_on_business@outlook.com/03-Data-Ingestion-Via-ADF/includes/Databricks-Data-Transformations",
+					"baseParameters": {
+						"accountName": "psastaccblobdp200002",
+						"accountKey": "FMwaUO4t/BpSO/SpQ/Tk4RdFOCai8Y3LRdHjn6dP3nV1llC8eFCIrXUawEKzvAYxyjmPTjM3Q7BLeK0cm72tiw==",
+						"containerName": "dwtemp"
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "ls_dtbrks_dp200_002",
+					"type": "LinkedServiceReference"
+				}
 			}
 		],
 		"annotations": []
