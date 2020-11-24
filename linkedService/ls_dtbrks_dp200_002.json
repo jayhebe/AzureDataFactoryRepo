@@ -1,0 +1,19 @@
+{
+	"name": "ls_dtbrks_dp200_002",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricks",
+		"typeProperties": {
+			"domain": "https://adb-5762387905506172.12.azuredatabricks.net",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_keyvt_shared_001",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "kv-sc-dtbrks-dp200-001"
+			},
+			"existingClusterId": "1124-061131-idea516"
+		}
+	}
+}
