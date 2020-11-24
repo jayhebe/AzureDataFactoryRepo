@@ -1,0 +1,18 @@
+{
+	"name": "DestinationDataset_824",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_blob_dp200_002",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Binary",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "2020-11-24",
+				"container": "dwtemp"
+			}
+		}
+	}
+}
